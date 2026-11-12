@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مُصمِّمي | عالم التصميم</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#10121b;color:#fff;font-family:Arial,sans-serif}
+header{padding:24px 18px;background:linear-gradient(135deg,#171d32,#272044);border-bottom:1px solid #38344e}
+.logo{font-size:29px;font-weight:bold;color:#e7bb62}
+header p{color:#c2c2d0;margin-bottom:0}
+main{padding:18px;max-width:850px;margin:auto}
+h2{font-size:21px}
+.search,input,textarea{width:100%;padding:14px;border-radius:12px;border:1px solid #41445a;background:#1c2030;color:white;font-size:16px;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#1c2030;border:1px solid #34394e;border-radius:15px;padding:17px;min-height:125px}
+.card .emoji{font-size:30px}
+.card h3{margin:10px 0 5px}
+.card p{color:#b7bac9;font-size:13px}
+button{background:#d9ad55;color:#151515;border:0;border-radius:10px;padding:12px 16px;font-weight:bold;font-size:15px;cursor:pointer}
+.panel{background:#1c2030;border:1px solid #34394e;border-radius:15px;padding:17px;margin-top:18px}
+.colors{display:flex;gap:8px;margin:15px 0}
+.swatch{flex:1;height:65px;border-radius:9px;border:1px solid #777}
+.result{background:#292e40;padding:15px;border-radius:10px;min-height:55px;overflow-wrap:anywhere}
+footer{text-align:center;color:#9295a6;padding:25px;font-size:13px}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">✦ مُصمِّمي</div>
+<p>كل أدوات الإبداع والتصميم في مكان واحد</p>
+</header>
+
+<main>
+<h2>مرحباً بك في عالم الإبداع 👋</h2>
+<input class="search" id="search" placeholder="ابحث عن أداة تصميم..." oninput="filterCards()">
+
+<h2>أدوات التصميم</h2>
+<div class="grid" id="tools">
+<div class="card"><div class="emoji">🎨</div><h3>تنسيق الألوان</h3><p>اكتشف مجموعات ألوان متناسقة.</p><button onclick="showTool('colors')">افتح الأداة</button></div>
+<div class="card"><div class="emoji">✍️</div><h3>تنسيق النصوص</h3><p>اكتب نصك وشاهد معاينته.</p><button onclick="showTool('text')">افتح الأداة</button></div>
+<div class="card"><div class="emoji">🏆</div><h3>أفكار الشعارات</h3><p>ابدأ بتجهيز فكرة شعارك.</p><button onclick="showTool('logo')">افتح الأداة</button></div>
+<div class="card"><div class="emoji">🖼️</div><h3>تصميم المنشورات</h3><p>خطط لمنشورات حساباتك.</p><button onclick="showTool('posts')">افتح الأداة</button></div>
+<div class="card"><div class="emoji">🔤</div><h3>الخطوط</h3><p>معاينة النصوص والخطوط.</p><button onclick="showTool('fonts')">افتح الأداة</button></div>
+<div class="card"><div class="emoji">💡</div><h3>أفكار إبداعية</h3><p>اكتشف أفكاراً جديدة للتصميم.</p><button onclick="showTool('ideas')">افتح الأداة</button></div>
+</div>
+
+<section class="panel" id="workspace">
+<h2>✨ مساحة العمل</h2>
+<p style="color:#b7bac9">اختر أداة من الأعلى لبدء العمل.</p>
+</section>
+</main>
+
+<footer>مُصمِّمي © 2026 — الإبداع يبدأ من هنا</footer>
+
+<script>
+const workspace=document.getElementById('workspace');
+
+function showTool(tool){
+if(tool==='colors'){
+workspace.innerHTML=`
+<h2>🎨 منسق الألوان</h2>
+<p>اضغط لتوليد مجموعة ألوان جديدة.</p>
+<div class="colors" id="palette"></div>
+<button onclick="generateColors()">توليد ألوان</button>
+<button onclick="copyColors()">نسخ الأكواد</button>
+<p id="colorCodes"></p>`;
+generateColors();
+}
+else if(tool==='text'){
+workspace.innerHTML=`
+<h2>✍️ معاينة النصوص</h2>
+<input id="myText" placeholder="اكتب النص هنا" oninput="previewText()">
+<div class="result" id="textPreview">ستظهر معاينة النص هنا</div>
+<button onclick="copyText()">نسخ النص</button>`;
+}
+else if(tool==='logo'){
+workspace.innerHTML=`
+<h2>🏆 أفكار الشعارات</h2>
+<p>حدد مجال الشعار واكتب اسمه.</p>
+<input id="logoName" placeholder="اسم الشعار">
+<input id="logoType" placeholder="مثلاً: متجر جوالات">
+<button onclick="makeIdea()">إنشاء فكرة</button>
+<div class="result" id="logoIdea">ستظهر فكرتك هنا.</div>`;
+}
+else if(tool==='posts'){
+workspace.innerHTML=`
+<h2>🖼️ تخطيط المنشورات</h2>
+<p>اكتب موضوع المنشور.</p>
+<input id="postTopic" placeholder="موضوع المنشور">
+<button onclick="makePost()">اقتراح فكرة منشور</button>
+<div class="result" id="postIdea"></div>`;
+}
+else if(tool==='fonts'){
+workspace.innerHTML=`
+<h2>🔤 معاينة الخطوط</h2>
+<input id="fontText" placeholder="اكتب نصاً للتجربة" oninput="previewFonts()">
+<div id="fontPreview" class="result">معاينة الخطوط</div>`;
+}
+else{
+workspace.innerHTML=`
+<h2>💡 أفكار إبداعية</h2>
+<p>بعض أفكار التصميم للبدء:</p>
+<div class="result">شعار ذهبي فاخر — إعلان سينمائي — منشور تسويقي — هوية بصرية — غلاف احترافي.</div>`;
+}
+workspace.scrollIntoView({behavior:'smooth'});
+}
+
+function generateColors(){
+let colors=Array.from({length:5},()=> '#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'));
+document.getElementById('palette').innerHTML=colors.map(c=>`<div class="swatch" style="background:${c}" title="${c}"></div>`).join('');
+document.getElementById('colorCodes').textContent=colors.join('   ');
+}
+function copyColors(){
+let t=document.getElementById('colorCodes');
+if(t)navigator.clipboard?.writeText(t.textContent);
+}
+function previewText(){
+let t=document.getElementById('myText').value;
+document.getElementById('textPreview').textContent=t||'ستظهر معاينة النص هنا';
+}
+function copyText(){
+let t=document.getElementById('myText').value;
+navigator.clipboard?.writeText(t);
+}
+function makeIdea(){
+let n=document.getElementById('logoName').value;
+let t=document.getElementById('logoType').value;
+document.getElementById('logoIdea').textContent=`فكرة شعار باسم ${n||'اسمك'} لمجال ${t||'نشاطك'}: تصميم احترافي يجمع رمزاً مناسباً مع كتابة واضحة وألوان متناسقة.`;
+}
+function makePost(){
+let t=document.getElementById('postTopic').value;
+document.getElementById('postIdea').textContent=`فكرة منشور عن ${t||'موضوعك'}: عنوان جذاب، صورة رئيسية واضحة، وصف قصير، ودعوة للتفاعل.`;
+}
+function previewFonts(){
+let t=document.getElementById('fontText').value;
+document.getElementById('fontPreview').innerHTML='';
+['Arial','Tahoma','serif','monospace'].forEach(f=>{
+let d=document.createElement('p');
+d.textContent=t||'مُصمِّمي — عالم الإبداع';
+d.style.fontFamily=f;
+d.style.fontSize='21px';
+document.getElementById('fontPreview').appendChild(d);
+});
+}
+function filterCards(){
+let q=document.getElementById('search').value;
+document.querySelectorAll('.card').forEach(c=>{
+c.style.display=c.innerText.includes(q)?'block':'none';
+});
+}
+</script>
+</body>
+</html>
